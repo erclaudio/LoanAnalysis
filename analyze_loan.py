@@ -34,6 +34,8 @@ class Loan:
          plt.grid(axis = 'y', alpha = .5)
          plt.legend(loc = 8)
          plt.show()
+        
+         
     
     def summary(self):
          amort = self.table
@@ -48,18 +50,20 @@ class Loan:
     def extra_pmt(self, extra_amt):
          return round(npf.nper(self.rate, self.pmt + extra_amt, -self.loan_amount).round(2)/12,2)
     
-    def preferred_term(self, requested_term):
+    def preferred_term(self, requested_term):         
          added_pmt = 10
          while npf.nper(self.rate, self.pmt + added_pmt, -self.loan_amount)/12 > requested_term:
               added_pmt+=1
         
          new_loan = Loan(5.875, requested_term, self.loan_amount)
          new_loan.plot_balances()
+         amort = new_loan.table
                  
          return (f'{"Original Amount:":22} {self.pmt:.2f}\n'
             f'{"New Payment:":22} {added_pmt+self.pmt:.2f}\n'
             f'{"Additional Cost:":22} {added_pmt:.2f}\n'
-            f'{"New Term:":22}{requested_term} years'
+            f'{"New Term:":22}{requested_term} years\n'
+            f'{"New Total Interest:":22}{amort.Interest.cumsum().iloc[-1]:.2f}'
             )
     
          
