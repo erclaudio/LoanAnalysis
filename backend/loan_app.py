@@ -1,4 +1,4 @@
-from analyze_loan import Loan
+from backend.analyze_loan import Loan
 import sys
 from time import sleep
 
